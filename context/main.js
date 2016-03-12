@@ -7,7 +7,7 @@
   parentWindow.karma.setupContext(window);
 
   // Define a remote call method for Karma
-  window.callParentKarmaMethod = function (method, args) {
+  var callParentKarmaMethod = function (method, args) {
     // If the method doesn't exist, then error out
     if (!parentWindow.karma[method]) {
       parentWindow.karma.error('Expected Karma method "' + method + '" to exist but it doesn\'t');
@@ -25,7 +25,8 @@
   var haveParentAccess = false;
   try { haveParentAccess = !!parentWindow.window; } catch (err) { /* Ignore errors (likely permisison errors) */ }
   if (!haveParentAccess) {
-    callParentKarma = function (method, args) {
+    // TODO: The postMessage implementation of `callParentKarmaMethod` is untested. Please test it
+    callParentKarmaMethod = function (method, args) {
       // TODO: In PhantomJS, we had to use `window.parent` not `window.opener`.
       //   If we run into issues, try moving to `window.opener`
       parentWindow.postMessage({method: method, arguments: args}, window.location.origin);
@@ -33,5 +34,5 @@
   }
 
   // Run an example method
-  window.callParentKarmaMethod('wat', ['log', ['hi']]);
+  callParentKarmaMethod('wat', ['log', ['hi']]);
 }());
