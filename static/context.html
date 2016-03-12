@@ -21,8 +21,6 @@ Reloaded before every execution run.
     (function () {
       var parentWindow = window.opener || window.parent;
       parentWindow.karma.setupContext(window);
-      console.log(console.log + '');
-      parentWindow.karma.log('log', ['wtf']);
     }());
 
     // All served files with the latest timestamps
