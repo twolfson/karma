@@ -19,37 +19,3 @@ Feature: Basic Testrunner
       ..
       PhantomJS
       """
-  @not-jenkins
-  Scenario: Execute a test in Chrome
-    Given a configuration with:
-      """
-      files = ['basic/plus.js', 'basic/test.js']
-      browsers = ['Chrome']
-      plugins = [
-        'karma-jasmine',
-        'karma-chrome-launcher'
-      ]
-      """
-    When I start Karma
-    Then it passes with:
-      """
-      ..
-      Chrome
-      """
-
-  Scenario: Execute a test in Firefox
-    Given a configuration with:
-      """
-      files = ['basic/plus.js', 'basic/test.js']
-      browsers = ['Firefox']
-      plugins = [
-        'karma-jasmine',
-        'karma-firefox-launcher'
-      ]
-      """
-    When I start Karma
-    Then it passes with:
-      """
-      ..
-      Firefox
-      """
