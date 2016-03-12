@@ -33,5 +33,5 @@
   }
 
   // Run an example method
-  window.callParentKarmaMethod('log', ['log', ['hi']]);
+  window.callParentKarmaMethod('wat', ['log', ['hi']]);
 }());
