@@ -2,6 +2,10 @@ var stringify = require('./stringify')
 var constant = require('./constants')
 var util = require('./util')
 
+window.addEventListener('message', function handleMessage (evt) {
+  console.log('parent got message');
+});
+
 var Karma = function (socket, iframe, opener, navigator, location) {
   var hasError = false
   var startEmitted = false
@@ -91,6 +95,7 @@ var Karma = function (socket, iframe, opener, navigator, location) {
     contextWindow.alert = function (msg) {
       self.log('alert', [msg])
     }
+    contextWindow.postMessage('hi', window.location.origin);
   }
 
   this.log = function (type, args) {
