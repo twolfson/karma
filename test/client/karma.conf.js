@@ -68,7 +68,7 @@ if (process.env.TRAVIS) {
     browsers = Object.keys(launchers)
   }
 } else {
-  browsers.push('Chrome')
+  browsers.push('PhantomJS')
 }
 
 module.exports = function (config) {
@@ -147,6 +147,7 @@ module.exports = function (config) {
       'karma-mocha',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
+      'karma-phantomjs-launcher',
       'karma-junit-reporter',
       'karma-browserify',
       'karma-browserstack-launcher'
