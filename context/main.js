@@ -27,6 +27,8 @@
   try { haveParentAccess = !!parentWindow.window; } catch (err) { /* Ignore errors (likely permisison errors) */ }
   if (!haveParentAccess) {
     callParentKarma = function (method, args) {
+      // TODO: In PhantomJS, we had to use `window.parent` not `window.opener`.
+      //   If we run into issues, try moving to `window.opener`
       parentWindow.postMessage({method: method, arguments: args}, window.location.origin);
     };
   }
