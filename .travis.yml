@@ -1,9 +1,6 @@
 sudo: false
 language: node_js
 node_js:
-  - "0.10"
-  - "0.12"
-  - "4"
   - "5"
 
 env:
@@ -37,3 +34,10 @@ before_script:
 
 script:
   - npm run travis
+
+notifications:
+  email:
+    recipients:
+      - todd@twolfson.com
+    on_success: change
+    on_failure: change
