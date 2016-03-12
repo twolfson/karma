@@ -34,5 +34,5 @@
   }
 
   // Run an example method
-  callParentKarmaMethod('wat', ['log', ['hi']]);
+  // callParentKarmaMethod('log', ['log', ['hi']]);
 }());
