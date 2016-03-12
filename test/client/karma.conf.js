@@ -91,6 +91,11 @@ module.exports = function (config) {
       'test/client/*.js': ['browserify']
     },
 
+    // TODO: Remove useIframe override and make sure it's replaced with tests elsewhere
+    client: {
+      useIframe: false
+    },
+
     // use dots reporter, as travis terminal does not support escaping sequences
     // possible values: 'dots', 'progress'
     // CLI --reporters progress
