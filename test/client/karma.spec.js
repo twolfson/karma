@@ -94,8 +94,7 @@ describe('Karma', function () {
 
     socket.emit('execute', config)
 
-    // TODO: Remove __karma__ as it's mostly for legacy
-    var mockWindow = {__karma__: k}
+    var mockWindow = {}
 
     ck.error('page reload')
     ck.setupContext(mockWindow)
@@ -111,7 +110,7 @@ describe('Karma', function () {
 
     socket.emit('execute', config)
 
-    var mockWindow = {__karma__: k}
+    var mockWindow = {}
 
     ck.error('page reload')
     ck.setupContext(mockWindow)
@@ -126,7 +125,7 @@ describe('Karma', function () {
       clearContext: true
     }
     socket.emit('execute', config)
-    var mockWindow = {__karma__: k}
+    var mockWindow = {}
     ck.setupContext(mockWindow)
 
     // Spy on our error handler
@@ -248,7 +247,6 @@ describe('Karma', function () {
       sinon.spy(ck, 'log')
 
       var mockWindow = {
-        __karma__: k,
         alert: function () {
           throw new Error('Alert was not patched!')
         }
@@ -335,7 +333,6 @@ describe('Karma', function () {
       ck.config.captureConsole = true
 
       var mockWindow = {
-        __karma__: k,
         console: {
           log: function () {}
         }
@@ -352,7 +349,6 @@ describe('Karma', function () {
       ck.config.captureConsole = false
 
       var mockWindow = {
-        __karma__: k,
         console: {
           log: function () {}
         }

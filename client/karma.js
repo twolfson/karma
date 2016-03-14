@@ -38,12 +38,6 @@ var Karma = function (socket, iframe, opener, navigator, location) {
     }
   }
 
-  this.setupContext = function (contextWindow) {
-    // TODO: Remove this line as it's a workaround for now...
-    // TODO: Remove __karma__ from tests as well
-    lodash.assign(contextWindow.__karma__, this)
-  }
-
   this.onbeforeunload = function () {
     if (!reloadingContext) {
       // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)

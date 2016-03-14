@@ -113,10 +113,6 @@ var ContextKarma = function (callParentKarmaMethod) {
         patchConsoleMethod(logMethods[i])
       }
     }
-
-    // Call our initialization function
-    // TODO: Don't pass window through context
-    callParentKarmaMethod('setupContext', [contextWindow]);
   };
 };
 
