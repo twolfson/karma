@@ -1,4 +1,7 @@
 // TODO: Be sure that we lint this...
+// Load in our dependencies
+var ContextKarma = require('./karma');
+
 // Resolve our parent window
 var parentWindow = window.opener || window.parent;
 
@@ -29,5 +32,6 @@ if (!haveParentAccess) {
   };
 }
 
-// Call our initialization function
-parentWindow.karma.setupContext(window);
+// Initialize our ContextKarma
+var contextKarma = new ContextKarma(callParentKarmaMethod);
+contextKarma.setupContext();
