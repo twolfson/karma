@@ -1,7 +1,6 @@
 // TODO: Be sure that we lint this...
-// Call our initialization function
+// Resolve our parent window
 var parentWindow = window.opener || window.parent;
-parentWindow.karma.setupContext(window);
 
 // Define a remote call method for Karma
 var callParentKarmaMethod = function (method, args) {
@@ -30,5 +29,5 @@ if (!haveParentAccess) {
   };
 }
 
-// Run an example method
-// callParentKarmaMethod('log', ['log', ['hi']]);
+// Call our initialization function
+parentWindow.karma.setupContext(window);
