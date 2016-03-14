@@ -4,7 +4,8 @@ global.JSON = require('json3')
 var sinon = require('sinon')
 var assert = require('assert')
 
-var Karma = require('../../client/karma')
+var ClientKarma = require('../../client/karma')
+var ContextKarma = require('../../context/karma')
 var MockSocket = require('./mocks').Socket
 
 describe('Karma', function () {
@@ -22,7 +23,7 @@ describe('Karma', function () {
     windowLocation = {search: ''}
     windowStub = sinon.stub().returns({})
 
-    k = new Karma(socket, iframe, windowStub, windowNavigator, windowLocation)
+    k = new ClientKarma(socket, iframe, windowStub, windowNavigator, windowLocation)
     startSpy = sinon.spy(k, 'start')
   })
 
@@ -146,7 +147,7 @@ describe('Karma', function () {
   it('should report browser id', function () {
     windowLocation.search = '?id=567'
     socket = new MockSocket()
-    k = new Karma(socket, {}, windowStub, windowNavigator, windowLocation)
+    k = new ClientKarma(socket, {}, windowStub, windowNavigator, windowLocation)
 
     var spyInfo = sinon.spy(function (info) {
       assert(info.id === '567')
@@ -299,7 +300,7 @@ describe('Karma', function () {
     it('should navigate the client to return_url if specified', function (done) {
       windowLocation.search = '?id=567&return_url=http://return.com'
       socket = new MockSocket()
-      k = new Karma(socket, {}, windowStub, windowNavigator, windowLocation)
+      k = new ClientKarma(socket, {}, windowStub, windowNavigator, windowLocation)
 
       sinon.spy(socket, 'disconnect')
 
