@@ -2,12 +2,6 @@
 // Resolve our parent window
 var parentWindow = window.opener || window.parent;
 
-// Define our Karma instance
-window.__karma__ = {};
-
-// Load in our config
-
-
 // Define a remote call method for Karma
 var callParentKarmaMethod = function (method, args) {
   // If the method doesn't exist, then error out
