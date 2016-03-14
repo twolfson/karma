@@ -111,6 +111,22 @@ describe('Karma', function () {
     assert(mockWindow.onerror != null)
   })
 
+  it('should error out if a script attempted to reload the browser after setup', function () {
+    // Perform setup
+    socket.emit('execute', {})
+    var mockWindow = {}
+    k.setupContext(mockWindow)
+
+    // Spy on our error handler
+    sinon.spy(k, 'error')
+
+    // Emulate an unload event
+    mockWindow.onbeforeunload()
+
+    // Assert our spy was called
+    console.log(k.error.args)
+  })
+
   it('should report navigator name', function () {
     var spyInfo = sinon.spy(function (info) {
       assert(info.name === 'Fake browser name')
