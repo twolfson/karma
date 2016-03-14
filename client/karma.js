@@ -1,7 +1,7 @@
 var lodash = require('lodash')
-var stringify = require('./stringify')
+var stringify = require('../common/stringify')
 var constant = require('./constants')
-var util = require('./util')
+var util = require('../common/util')
 
 var Karma = function (socket, iframe, opener, navigator, location) {
   var hasError = false

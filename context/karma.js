@@ -1,6 +1,24 @@
+// Load our dependencies
+var stringify = require('../common/stringify')
+
 // Define our context Karma constructor
 // TODO: We prob don't need a class, do we...?
 var ContextKarma = function (callParentKarmaMethod) {
+  // Define our loggers
+  // DEV: These are intentionally repeated in client and context
+  this.log = function (type, args) {
+    var values = []
+
+    for (var i = 0; i < args.length; i++) {
+      values.push(this.stringify(args[i], 3))
+    }
+
+    this.info({log: values.join(', '), type: type})
+  }
+
+  this.stringify = stringify
+
+  // Define bindings for context window
   this.setupContext = function (contextWindow) {
     // Call our initialization function
     // TODO: Don't pass window through context
