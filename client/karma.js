@@ -44,8 +44,6 @@ var Karma = function (socket, iframe, opener, navigator, location) {
       return
     }
 
-    contextWindow.__karma__ = this
-
     var getConsole = function (currentWindow) {
       return currentWindow.console || {
         log: function () {},
@@ -53,6 +51,20 @@ var Karma = function (socket, iframe, opener, navigator, location) {
         warn: function () {},
         error: function () {},
         debug: function () {}
+      }
+    }
+
+    contextWindow.__karma__ = this
+
+    // This causes memory leak in Chrome (17.0.963.66)
+    contextWindow.onerror = function () {
+      return contextWindow.__karma__.error.apply(contextWindow.__karma__, arguments)
+    }
+
+    contextWindow.onbeforeunload = function (e, b) {
+      if (!reloadingContext) {
+        // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)
+        contextWindow.__karma__.error('Some of your tests did a full page reload!')
       }
     }
 
@@ -81,17 +93,6 @@ var Karma = function (socket, iframe, opener, navigator, location) {
 
     contextWindow.alert = function (msg) {
       self.log('alert', [msg])
-    }
-  }
-
-  this.onerror = function () {
-    return self.error.apply(self, arguments)
-  };
-
-  this.onbeforeunload = function () {
-    if (!reloadingContext) {
-      // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)
-      self.error('Some of your tests did a full page reload!')
     }
   }
 
