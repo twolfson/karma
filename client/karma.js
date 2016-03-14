@@ -1,3 +1,4 @@
+var lodash = require('lodash')
 var stringify = require('./stringify')
 var constant = require('./constants')
 var util = require('./util')
@@ -54,7 +55,8 @@ var Karma = function (socket, iframe, opener, navigator, location) {
       }
     }
 
-    contextWindow.__karma__ = this
+    // TODO: Remove this line as it's a workaround for now...
+    lodash.assign(contextWindow.__karma__, this)
 
     // This causes memory leak in Chrome (17.0.963.66)
     contextWindow.onerror = function () {
