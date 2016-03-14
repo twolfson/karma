@@ -111,7 +111,7 @@ describe('Karma', function () {
     assert(mockWindow.onerror != null)
   })
 
-  it.only('should error out if a script attempted to reload the browser after setup', function () {
+  it('should error out if a script attempted to reload the browser after setup', function () {
     // Perform setup
     var config = {
       clearContext: true
