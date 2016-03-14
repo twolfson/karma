@@ -176,12 +176,12 @@ describe('Karma', function () {
 
       // emit 49 results
       for (var i = 1; i < 50; i++) {
-        k.result({id: i})
+        ck.result({id: i})
       }
 
       assert(!spyResult.called)
 
-      k.result('result', {id: 50})
+      ck.result('result', {id: 50})
       assert(spyResult.called)
       assert(spyResult.args[0][0].length === 50)
     })
@@ -194,10 +194,10 @@ describe('Karma', function () {
 
       // emit 40 results
       for (var i = 1; i <= 40; i++) {
-        k.result({id: i})
+        ck.result({id: i})
       }
 
-      k.complete()
+      ck.complete()
       assert(spyResult.called)
       assert(spyResult.args[0][0].length === 40)
     })
@@ -216,7 +216,7 @@ describe('Karma', function () {
       setTransportTo('websocket')
 
       // adapter didn't call info({total: x})
-      k.result()
+      ck.result()
       assert.deepEqual(log, ['start', 'result'])
     })
 
@@ -236,8 +236,8 @@ describe('Karma', function () {
 
       setTransportTo('websocket')
 
-      k.info({total: 321})
-      k.result()
+      ck.info({total: 321})
+      ck.result()
       assert.deepEqual(log, ['start', 'result'])
       assert(spyStart.calledWith({total: 321}))
     })
@@ -297,12 +297,12 @@ describe('Karma', function () {
 
       // emit 40 results
       for (var i = 0; i < 40; i++) {
-        k.result({id: i})
+        ck.result({id: i})
       }
 
       assert(!spyResult.called)
 
-      k.complete()
+      ck.complete()
       assert(spyResult.called)
     })
 
@@ -310,6 +310,9 @@ describe('Karma', function () {
       windowLocation.search = '?id=567&return_url=http://return.com'
       socket = new MockSocket()
       k = new ClientKarma(socket, {}, windowStub, windowNavigator, windowLocation)
+      clientWindow = {karma: k}
+      ck = new ContextKarma(ContextKarma.getDirectCallParentKarmaMethod(clientWindow))
+      ck.config = {}
 
       sinon.spy(socket, 'disconnect')
 
@@ -317,7 +320,7 @@ describe('Karma', function () {
         ack()
       })
 
-      k.complete()
+      ck.complete()
 
       clock.tick(500)
       setTimeout(function () {
@@ -327,6 +330,8 @@ describe('Karma', function () {
       clock.tick(10)
     })
 
+    // TODO: This test's update is coming soon =D
+    // TODO: Make sure there are no minimal ` k.` calls in this test
     it('should patch the console if captureConsole is true', function () {
       sinon.spy(k, 'log')
       k.config.captureConsole = true
@@ -368,7 +373,7 @@ describe('Karma', function () {
       socket.emit('execute', config)
       var CURRENT_URL = iframe.src
 
-      k.complete()
+      ck.complete()
 
       // clock.tick() does not work in IE 7
       setTimeout(function () {
@@ -385,7 +390,7 @@ describe('Karma', function () {
       socket.emit('execute', config)
       var CURRENT_URL = iframe.src
 
-      k.complete()
+      ck.complete()
 
       clock.tick(1)
 

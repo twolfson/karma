@@ -4,8 +4,9 @@ var stringify = require('../common/stringify')
 // Define our context Karma constructor
 // TODO: We prob don't need a class, do we...?
 var ContextKarma = function (callParentKarmaMethod) {
-  // Define properties
+  // Define local variables
   var hasError = false
+  var self = this
 
   // Define our loggers
   // DEV: These are intentionally repeated in client and context
@@ -47,11 +48,15 @@ var ContextKarma = function (callParentKarmaMethod) {
   this.start = UNIMPLEMENTED_START;
 
   // Define proxy methods
-  ['complete', 'info', 'result'].forEach(function bindProxyMethod (methodName) {
-    self[methodName] = function boundProxyMethod () {
-      callParentKarmaMethod(methodName, [].slice.call(arguments));
-    };
-  });
+  // DEV: This is a closured `for` loop (same as a `forEach`) for IE support
+  var proxyMethods = ['complete', 'info', 'result']
+  for (var i = 0; i < proxyMethods.length; i++) {
+    (function bindProxyMethod (methodName) {
+      self[methodName] = function boundProxyMethod () {
+        callParentKarmaMethod(methodName, [].slice.call(arguments));
+      };
+    }(proxyMethods[i]));
+  }
 
   // Define bindings for context window
   this.setupContext = function (contextWindow) {
