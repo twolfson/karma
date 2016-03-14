@@ -20,6 +20,6 @@ if (!haveParentAccess) {
   callParentKarmaMethod = ContextKarma.getPostMessageCallParentKarmaMethod(parentWindow);
 }
 
-// Initialize our ContextKarma
-var contextKarma = new ContextKarma(callParentKarmaMethod);
-contextKarma.setupContext(window);
+// Define a window-scoped Karma
+window.__karma__ = new ContextKarma(callParentKarmaMethod);
+
