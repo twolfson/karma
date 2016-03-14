@@ -54,8 +54,6 @@ var Karma = function (socket, iframe, opener, navigator, location) {
       }
     }
 
-    contextWindow.__karma__ = this
-
     // This causes memory leak in Chrome (17.0.963.66)
     contextWindow.onerror = function () {
       return contextWindow.__karma__.error.apply(contextWindow.__karma__, arguments)
