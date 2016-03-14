@@ -111,9 +111,12 @@ describe('Karma', function () {
     assert(mockWindow.onerror != null)
   })
 
-  it('should error out if a script attempted to reload the browser after setup', function () {
+  it.only('should error out if a script attempted to reload the browser after setup', function () {
     // Perform setup
-    socket.emit('execute', {})
+    var config = {
+      clearContext: true
+    }
+    socket.emit('execute', config)
     var mockWindow = {}
     k.setupContext(mockWindow)
 
@@ -124,7 +127,7 @@ describe('Karma', function () {
     mockWindow.onbeforeunload()
 
     // Assert our spy was called
-    console.log(k.error.args)
+    assert(k.error.calledWith('Some of your tests did a full page reload!'))
   })
 
   it('should report navigator name', function () {
