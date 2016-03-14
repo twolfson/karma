@@ -44,10 +44,14 @@ var ContextKarma = function (callParentKarmaMethod) {
   }
   // supposed to be overriden by the context
   // TODO(vojta): support multiple callbacks (queue)
-  this.start = UNIMPLEMENTED_START
+  this.start = UNIMPLEMENTED_START;
 
-  // TODO: Define proxy methods
-  ['complete', 'info', 'result']
+  // Define proxy methods
+  ['complete', 'info', 'result'].forEach(function bindProxyMethod (methodName) {
+    self[methodName] = function boundProxyMethod () {
+      callParentKarmaMethod(methodName, [].slice.call(arguments));
+    };
+  });
 
   // Define bindings for context window
   this.setupContext = function (contextWindow) {
