@@ -26,11 +26,12 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   var childWindow = null
   var navigateContextTo = function (url) {
     if (self.config.useIframe === false) {
-      if (childWindow === null || childWindow.closed === true) {
-        // If this is the first time we are opening the window, or the window is closed
-        childWindow = opener('about:blank')
+      // If there is a window already open, then close it
+      // DEV: In some environments (e.g. Electron), we don't have setter access for location
+      if (childWindow !== null && childWindow.closed !== true) {
+        childWindow.close()
       }
-      childWindow.location = url
+      childWindow = opener(url)
     } else {
       iframe.src = url
     }
@@ -113,19 +114,7 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   var clearContext = function () {
     reloadingContext = true
 
-    // If we are using a window, then close it
-    // DEV: In some environments (e.g. Electron), we don't have setter access for location
-    //   Although, this has been patched and should be released soon :tada:
-    //   https://github.com/atom/electron/pull/4774
-    if (self.config.useIframe === false) {
-      if (childWindow !== null && childWindow.closed !== true) {
-        childWindow.close()
-        childWindow = null
-      }
-    // Otherwise, redirect the browser
-    } else {
-      navigateContextTo('about:blank')
-    }
+    navigateContextTo('about:blank')
   }
 
   // error during js file loading (most likely syntax error)
