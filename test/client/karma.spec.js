@@ -27,6 +27,10 @@ describe('Karma', function () {
     clientWindow = {
       karma: k
     }
+    // TODO: Comment in PR about how we lose configs being automatically updated via `execute`
+    //   This is due to context window receiving it via HTML. Not JS.
+    //   However, it should only affect instances where `clearContext = false`
+    //   which I'm not sure if would receive new configs or not...
     ck = new ContextKarma(ContextKarma.getDirectCallParentKarmaMethod(clientWindow))
     ck.config = {}
     startSpy = sinon.spy(k, 'start')
