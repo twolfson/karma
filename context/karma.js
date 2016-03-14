@@ -28,6 +28,24 @@ var ContextKarma = function (callParentKarmaMethod) {
     callParentKarmaMethod('error', [].slice.call(arguments));
   }
 
+  // Define our start handler
+  var UNIMPLEMENTED_START = function () {
+    this.error('You need to include some adapter that implements __karma__.start method!')
+  }
+  // all files loaded, let's start the execution
+  this.loaded = function () {
+    // has error -> cancel
+    if (!hasError) {
+      this.start(this.config)
+    }
+
+    // remove reference to child iframe
+    this.start = UNIMPLEMENTED_START
+  }
+  // supposed to be overriden by the context
+  // TODO(vojta): support multiple callbacks (queue)
+  this.start = UNIMPLEMENTED_START
+
   // TODO: Define proxy methods
   ['complete', 'info', 'result']
 
