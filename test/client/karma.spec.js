@@ -48,7 +48,7 @@ describe('Karma', function () {
 
     k.loaded()
     assert(startSpy.calledWith(config))
-    assert(windowStub.calledWith('about:blank'))
+    assert(windowStub.calledWith('context.html'))
   })
 
   it('should stop execution', function () {
