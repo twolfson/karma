@@ -330,12 +330,9 @@ describe('Karma', function () {
       clock.tick(10)
     })
 
-    // TODO: This test's update is coming soon =D
-    // TODO: Make sure there are no minimal ` k.` calls in this test
-    //   nor `k,`
     it('should patch the console if captureConsole is true', function () {
-      sinon.spy(k, 'log')
-      k.config.captureConsole = true
+      sinon.spy(ck, 'log')
+      ck.config.captureConsole = true
 
       var mockWindow = {
         __karma__: k,
@@ -346,13 +343,13 @@ describe('Karma', function () {
 
       ck.setupContext(mockWindow)
       mockWindow.console.log('What?')
-      assert(k.log.calledWith('log'))
-      assert(k.log.args[0][1][0] === 'What?')
+      assert(ck.log.calledWith('log'))
+      assert(ck.log.args[0][1][0] === 'What?')
     })
 
     it('should not patch the console if captureConsole is false', function () {
-      sinon.spy(k, 'log')
-      k.config.captureConsole = false
+      sinon.spy(ck, 'log')
+      ck.config.captureConsole = false
 
       var mockWindow = {
         __karma__: k,
@@ -363,7 +360,7 @@ describe('Karma', function () {
 
       ck.setupContext(mockWindow)
       mockWindow.console.log('hello')
-      assert(!k.log.called)
+      assert(!ck.log.called)
     })
 
     it('should clear context window upon complete when clearContext config is true', function () {
