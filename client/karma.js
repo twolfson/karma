@@ -39,46 +39,9 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   }
 
   this.setupContext = function (contextWindow) {
-    var getConsole = function (currentWindow) {
-      return currentWindow.console || {
-        log: function () {},
-        info: function () {},
-        warn: function () {},
-        error: function () {},
-        debug: function () {}
-      }
-    }
-
     // TODO: Remove this line as it's a workaround for now...
     // TODO: Remove __karma__ from tests as well
     lodash.assign(contextWindow.__karma__, this)
-
-    if (self.config.captureConsole) {
-      // patch the console
-      var localConsole = contextWindow.console = getConsole(contextWindow)
-      var logMethods = ['log', 'info', 'warn', 'error', 'debug']
-      var patchConsoleMethod = function (method) {
-        var orig = localConsole[method]
-        if (!orig) {
-          return
-        }
-        localConsole[method] = function () {
-          self.log(method, arguments)
-          return Function.prototype.apply.call(orig, localConsole, arguments)
-        }
-      }
-      for (var i = 0; i < logMethods.length; i++) {
-        patchConsoleMethod(logMethods[i])
-      }
-    }
-
-    contextWindow.dump = function () {
-      self.log('dump', arguments)
-    }
-
-    contextWindow.alert = function (msg) {
-      self.log('alert', [msg])
-    }
   }
 
   this.onbeforeunload = function () {

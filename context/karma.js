@@ -77,6 +77,43 @@ var ContextKarma = function (callParentKarmaMethod) {
       callParentKarmaMethod('onbeforeunload', []);
     }
 
+    contextWindow.dump = function () {
+      self.log('dump', arguments)
+    }
+
+    contextWindow.alert = function (msg) {
+      self.log('alert', [msg])
+    }
+
+    // If we want to overload our console, then do it
+    var getConsole = function (currentWindow) {
+      return currentWindow.console || {
+        log: function () {},
+        info: function () {},
+        warn: function () {},
+        error: function () {},
+        debug: function () {}
+      }
+    }
+    if (self.config.captureConsole) {
+      // patch the console
+      var localConsole = contextWindow.console = getConsole(contextWindow)
+      var logMethods = ['log', 'info', 'warn', 'error', 'debug']
+      var patchConsoleMethod = function (method) {
+        var orig = localConsole[method]
+        if (!orig) {
+          return
+        }
+        localConsole[method] = function () {
+          self.log(method, arguments)
+          return Function.prototype.apply.call(orig, localConsole, arguments)
+        }
+      }
+      for (var i = 0; i < logMethods.length; i++) {
+        patchConsoleMethod(logMethods[i])
+      }
+    }
+
     // Call our initialization function
     // TODO: Don't pass window through context
     callParentKarmaMethod('setupContext', [contextWindow]);
