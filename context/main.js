@@ -31,3 +31,11 @@ if (!haveParentAccess) {
 
 // Call our initialization function
 parentWindow.karma.setupContext(window);
+
+// Define proxies on window level
+window.onerror = function () {
+  callParentKarmaMethod('onerror', [].slice.call(arguments));
+};
+window.onbeforeunload = function (e, b) {
+  callParentKarmaMethod('onbeforeunload', []);
+};
