@@ -245,7 +245,7 @@ describe('Karma', function () {
 
   describe('setupContext', function () {
     it('should capture alert', function () {
-      sinon.spy(k, 'log')
+      sinon.spy(ck, 'log')
 
       var mockWindow = {
         __karma__: k,
@@ -256,7 +256,7 @@ describe('Karma', function () {
 
       ck.setupContext(mockWindow)
       mockWindow.alert('What?')
-      assert(k.log.calledWith('alert', ['What?']))
+      assert(ck.log.calledWith('alert', ['What?']))
     })
   })
 
@@ -332,6 +332,7 @@ describe('Karma', function () {
 
     // TODO: This test's update is coming soon =D
     // TODO: Make sure there are no minimal ` k.` calls in this test
+    //   nor `k,`
     it('should patch the console if captureConsole is true', function () {
       sinon.spy(k, 'log')
       k.config.captureConsole = true
