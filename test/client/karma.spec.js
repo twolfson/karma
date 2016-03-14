@@ -89,6 +89,7 @@ describe('Karma', function () {
 
     socket.emit('execute', config)
 
+    // TODO: Remove __karma__ as it's mostly for legacy
     var mockWindow = {__karma__: k}
 
     k.error('page reload')
@@ -120,7 +121,7 @@ describe('Karma', function () {
       clearContext: true
     }
     socket.emit('execute', config)
-    var mockWindow = {}
+    var mockWindow = {__karma__: k}
     ck.setupContext(mockWindow)
 
     // Spy on our error handler

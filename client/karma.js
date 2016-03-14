@@ -56,6 +56,7 @@ var Karma = function (socket, iframe, opener, navigator, location) {
     }
 
     // TODO: Remove this line as it's a workaround for now...
+    // TODO: Remove __karma__ from tests as well
     lodash.assign(contextWindow.__karma__, this)
 
     // This causes memory leak in Chrome (17.0.963.66)
