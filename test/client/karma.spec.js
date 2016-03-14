@@ -33,7 +33,7 @@ describe('Karma', function () {
     //   which I'm not sure if would receive new configs or not...
     ck = new ContextKarma(ContextKarma.getDirectCallParentKarmaMethod(clientWindow))
     ck.config = {}
-    startSpy = sinon.spy(k, 'start')
+    startSpy = sinon.spy(ck, 'start')
   })
 
   it('should start execution when all files loaded and pass config', function () {
@@ -44,7 +44,7 @@ describe('Karma', function () {
     socket.emit('execute', config)
     assert(!startSpy.called)
 
-    k.loaded()
+    ck.loaded()
     assert(startSpy.calledWith(config))
   })
 
@@ -54,9 +54,9 @@ describe('Karma', function () {
     }
 
     socket.emit('execute', config)
-    assert(!k.start.called)
+    assert(!ck.start.called)
 
-    k.loaded()
+    ck.loaded()
     assert(startSpy.calledWith(config))
     assert(windowStub.calledWith('context.html'))
   })
@@ -68,22 +68,22 @@ describe('Karma', function () {
   })
 
   it('should not start execution if any error during loading files', function () {
-    k.error('syntax error', '/some/file.js', 11)
-    k.loaded()
-    sinon.spy(k, 'start')
+    ck.error('syntax error', '/some/file.js', 11)
+    ck.loaded()
+    sinon.spy(ck, 'start')
     assert(!startSpy.called)
   })
 
   it('should remove reference to start even after syntax error', function () {
     var ADAPTER_START_FN = function () {}
 
-    k.start = ADAPTER_START_FN
-    k.error('syntax error', '/some/file.js', 11)
-    k.loaded()
-    assert.notEqual(k.start, ADAPTER_START_FN)
+    ck.start = ADAPTER_START_FN
+    ck.error('syntax error', '/some/file.js', 11)
+    ck.loaded()
+    assert.notEqual(ck.start, ADAPTER_START_FN)
 
-    k.start = ADAPTER_START_FN
-    k.loaded()
+    ck.start = ADAPTER_START_FN
+    ck.loaded()
     assert.notEqual(k.start, ADAPTER_START_FN)
   })
 
@@ -97,7 +97,7 @@ describe('Karma', function () {
     // TODO: Remove __karma__ as it's mostly for legacy
     var mockWindow = {__karma__: k}
 
-    k.error('page reload')
+    ck.error('page reload')
     ck.setupContext(mockWindow)
 
     assert(mockWindow.onbeforeunload == null)
@@ -113,7 +113,7 @@ describe('Karma', function () {
 
     var mockWindow = {__karma__: k}
 
-    k.error('page reload')
+    ck.error('page reload')
     ck.setupContext(mockWindow)
 
     assert(mockWindow.onbeforeunload != null)
