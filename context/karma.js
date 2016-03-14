@@ -1,4 +1,5 @@
 // Define our context Karma constructor
+// TODO: We prob don't need a class, do we...?
 var ContextKarma = function (callParentKarmaMethod) {
   this.setupContext = function (contextWindow) {
     // Call our initialization function
