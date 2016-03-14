@@ -27,6 +27,7 @@ var ContextKarma = function (callParentKarmaMethod) {
   this.error = function () {
     hasError = true
     callParentKarmaMethod('error', [].slice.call(arguments));
+    return false
   }
 
   // Define our start handler
@@ -60,6 +61,22 @@ var ContextKarma = function (callParentKarmaMethod) {
 
   // Define bindings for context window
   this.setupContext = function (contextWindow) {
+    // If we clear the context after every run and we already had an error
+    //   then stop now. Otherwise, carry on.
+    if (self.config.clearContext && hasError) {
+      return
+    }
+
+    // Perform window level bindings
+    // DEV: We return `self.error` since we want to `return false` to ignore errors
+    contextWindow.onerror = function () {
+      return self.error.apply(self, arguments)
+    }
+    // DEV: We must defined a function since we don't want to pass the event object
+    contextWindow.onbeforeunload = function (e, b) {
+      callParentKarmaMethod('onbeforeunload', []);
+    }
+
     // Call our initialization function
     // TODO: Don't pass window through context
     callParentKarmaMethod('setupContext', [contextWindow]);

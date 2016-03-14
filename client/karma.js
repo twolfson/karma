@@ -39,12 +39,6 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   }
 
   this.setupContext = function (contextWindow) {
-    // If we clear the context after every run and we already had an error
-    //   then stop now. Otherwise, carry on.
-    if (self.config.clearContext && hasError) {
-      return
-    }
-
     var getConsole = function (currentWindow) {
       return currentWindow.console || {
         log: function () {},
@@ -58,18 +52,6 @@ var Karma = function (socket, iframe, opener, navigator, location) {
     // TODO: Remove this line as it's a workaround for now...
     // TODO: Remove __karma__ from tests as well
     lodash.assign(contextWindow.__karma__, this)
-
-    // This causes memory leak in Chrome (17.0.963.66)
-    contextWindow.onerror = function () {
-      return contextWindow.__karma__.error.apply(contextWindow.__karma__, arguments)
-    }
-
-    contextWindow.onbeforeunload = function (e, b) {
-      if (!reloadingContext) {
-        // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)
-        contextWindow.__karma__.error('Some of your tests did a full page reload!')
-      }
-    }
 
     if (self.config.captureConsole) {
       // patch the console
@@ -96,6 +78,13 @@ var Karma = function (socket, iframe, opener, navigator, location) {
 
     contextWindow.alert = function (msg) {
       self.log('alert', [msg])
+    }
+  }
+
+  this.onbeforeunload = function () {
+    if (!reloadingContext) {
+      // TODO(vojta): show what test (with explanation about jasmine.UPDATE_INTERVAL)
+      self.error('Some of your tests did a full page reload!')
     }
   }
 
