@@ -82,7 +82,7 @@ describe('Karma', function () {
     assert.notEqual(k.start, ADAPTER_START_FN)
   })
 
-  it.only('should not set up context if there was an error', function () {
+  it('should not set up context if there was an error', function () {
     var config = {
       clearContext: true
     }
@@ -109,7 +109,7 @@ describe('Karma', function () {
     var mockWindow = {}
 
     k.error('page reload')
-    k.setupContext(mockWindow)
+    ck.setupContext(mockWindow)
 
     assert(mockWindow.__karma__ != null)
     assert(mockWindow.onbeforeunload != null)
@@ -123,7 +123,7 @@ describe('Karma', function () {
     }
     socket.emit('execute', config)
     var mockWindow = {}
-    k.setupContext(mockWindow)
+    ck.setupContext(mockWindow)
 
     // Spy on our error handler
     sinon.spy(k, 'error')
@@ -249,7 +249,7 @@ describe('Karma', function () {
         }
       }
 
-      k.setupContext(mockWindow)
+      ck.setupContext(mockWindow)
       mockWindow.alert('What?')
       assert(k.log.calledWith('alert', ['What?']))
     })
@@ -332,7 +332,7 @@ describe('Karma', function () {
         }
       }
 
-      k.setupContext(mockWindow)
+      ck.setupContext(mockWindow)
       mockWindow.console.log('What?')
       assert(k.log.calledWith('log'))
       assert(k.log.args[0][1][0] === 'What?')
@@ -348,7 +348,7 @@ describe('Karma', function () {
         }
       }
 
-      k.setupContext(mockWindow)
+      ck.setupContext(mockWindow)
       mockWindow.console.log('hello')
       assert(!k.log.called)
     })
