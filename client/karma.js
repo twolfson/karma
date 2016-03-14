@@ -22,6 +22,29 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   // registry anymore.
   this.socket = socket
 
+  // Set up postMessage bindings for current window
+  // DEV: These are to allow windows in separate processes execute local tasks
+  //   Electron is one of these environments
+  if (window.addEventListener) {
+    window.addEventListener('message', function handleMessage (evt) {
+      // Resolve the origin of our message
+      var origin = evt.origin || evt.originalEvent.origin;
+
+      // If the message isn't from our host, then reject it
+      if (origin !== window.location.origin) {
+        return;
+       }
+
+      // Take action based on the message type
+      var method = evt.data.method;
+      if (!self[method]) {
+        self.error('Received `postMessage` for "' + method + '" but the method doesn\'t exist');
+        return;
+      }
+      self[method].apply(self, evt.data.arguments);
+    }, false);
+  }
+
   var childWindow = null
   var navigateContextTo = function (url) {
     if (self.config.useIframe === false) {
