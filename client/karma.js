@@ -28,21 +28,21 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   if (window.addEventListener) {
     window.addEventListener('message', function handleMessage (evt) {
       // Resolve the origin of our message
-      var origin = evt.origin || evt.originalEvent.origin;
+      var origin = evt.origin || evt.originalEvent.origin
 
       // If the message isn't from our host, then reject it
       if (origin !== window.location.origin) {
-        return;
-       }
+        return
+      }
 
       // Take action based on the message type
-      var method = evt.data.method;
+      var method = evt.data.method
       if (!self[method]) {
-        self.error('Received `postMessage` for "' + method + '" but the method doesn\'t exist');
-        return;
+        self.error('Received `postMessage` for "' + method + '" but the method doesn\'t exist')
+        return
       }
-      self[method].apply(self, evt.data.arguments);
-    }, false);
+      self[method].apply(self, evt.data.arguments)
+    }, false)
   }
 
   var childWindow = null

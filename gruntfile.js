@@ -5,6 +5,8 @@ module.exports = function (grunt) {
     files: {
       server: ['lib/**/*.js'],
       client: ['client/**/*.js'],
+      common: ['common/**/*.js'],
+      context: ['context/**/*.js'],
       grunt: ['grunt.js', 'tasks/*.js'],
       scripts: ['scripts/init-dev-env.js']
     },
@@ -77,6 +79,8 @@ module.exports = function (grunt) {
         '<%= files.grunt %>',
         '<%= files.scripts %>',
         '<%= files.client %>',
+        '<%= files.common %>',
+        '<%= files.context %>',
         'test/**/*.js',
         'gruntfile.js'
       ]
