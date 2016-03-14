@@ -38,11 +38,8 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   }
 
   this.setupContext = function (contextWindow) {
-    // if we want don't to clear on load, then set up our contextWindow
-    //    apparently this is useful for Jasmine Spec Runner Template
-    //    http://karma-runner.github.io/0.13/config/configuration-file.html
-    // if we want to clear the context but there was an error, then stop running now
-    // if we want to clear the context and there was no error, then setup contextWindow
+    // If we clear the context after every run and we already had an error
+    //   then stop now. Otherwise, carry on.
     if (self.config.clearContext && hasError) {
       return
     }
