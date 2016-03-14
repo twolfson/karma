@@ -28,6 +28,7 @@ describe('Karma', function () {
       karma: k
     }
     ck = new ContextKarma(ContextKarma.getDirectCallParentKarmaMethod(clientWindow))
+    ck.config = {}
     startSpy = sinon.spy(k, 'start')
   })
 
