@@ -32,7 +32,7 @@ describe('Karma', function () {
   })
 
   it('should start execution when all files loaded and pass config', function () {
-    var config = {
+    var config = ck.config = {
       useIframe: true
     }
 
@@ -44,7 +44,7 @@ describe('Karma', function () {
   })
 
   it('should open a new window when useIFrame is false', function () {
-    var config = {
+    var config = ck.config = {
       useIframe: false
     }
 
@@ -83,7 +83,7 @@ describe('Karma', function () {
   })
 
   it('should not set up context if there was an error', function () {
-    var config = {
+    var config = ck.config = {
       clearContext: true
     }
 
@@ -100,7 +100,7 @@ describe('Karma', function () {
   })
 
   it('should setup context if there was error but clearContext config is false', function () {
-    var config = {
+    var config = ck.config = {
       clearContext: false
     }
 
@@ -117,7 +117,7 @@ describe('Karma', function () {
 
   it('should error out if a script attempted to reload the browser after setup', function () {
     // Perform setup
-    var config = {
+    var config = ck.config = {
       clearContext: true
     }
     socket.emit('execute', config)
@@ -356,7 +356,7 @@ describe('Karma', function () {
     })
 
     it('should clear context window upon complete when clearContext config is true', function () {
-      var config = {
+      var config = ck.config = {
         clearContext: true
       }
 
@@ -373,7 +373,7 @@ describe('Karma', function () {
     })
 
     it('should not clear context window upon complete when clearContext config is false', function () {
-      var config = {
+      var config = ck.config = {
         clearContext: false
       }
 
