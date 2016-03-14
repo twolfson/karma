@@ -1,10 +1,8 @@
-var lodash = require('lodash')
 var stringify = require('../common/stringify')
 var constant = require('./constants')
 var util = require('../common/util')
 
 var Karma = function (socket, iframe, opener, navigator, location) {
-  var hasError = false
   var startEmitted = false
   var reloadingContext = false
   var store = {}
@@ -66,7 +64,6 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   // error during js file loading (most likely syntax error)
   // we are not going to execute at all
   this.error = function (msg, url, line) {
-    hasError = true
     var message = msg
 
     if (url) {
@@ -146,8 +143,7 @@ var Karma = function (socket, iframe, opener, navigator, location) {
   }
 
   socket.on('execute', function (cfg) {
-    // reset hasError and reload the iframe
-    hasError = false
+    // reset startEmitted and reload the iframe
     startEmitted = false
     self.config = cfg
     // if not clearing context, reloadingContext always true to prevent beforeUnload error
