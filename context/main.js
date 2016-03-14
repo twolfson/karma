@@ -22,4 +22,4 @@ if (!haveParentAccess) {
 
 // Initialize our ContextKarma
 var contextKarma = new ContextKarma(callParentKarmaMethod);
-contextKarma.setupContext();
+contextKarma.setupContext(window);

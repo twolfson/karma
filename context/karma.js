@@ -1,9 +1,9 @@
 // Define our context Karma constructor
 var ContextKarma = function (callParentKarmaMethod) {
-  this.setupContext = function () {
+  this.setupContext = function (contextWindow) {
     // Call our initialization function
     // TODO: Don't pass window through context
-    callParentKarmaMethod('setupContext', [window]);
+    callParentKarmaMethod('setupContext', [contextWindow]);
   };
 };
 

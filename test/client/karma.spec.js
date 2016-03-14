@@ -9,7 +9,7 @@ var ContextKarma = require('../../context/karma')
 var MockSocket = require('./mocks').Socket
 
 describe('Karma', function () {
-  var socket, k, windowNavigator, windowLocation, windowStub, startSpy, iframe
+  var socket, k, ck, windowNavigator, windowLocation, windowStub, startSpy, iframe, clientWindow
 
   var setTransportTo = function (transportName) {
     socket._setTransportNameTo(transportName)
@@ -24,6 +24,10 @@ describe('Karma', function () {
     windowStub = sinon.stub().returns({})
 
     k = new ClientKarma(socket, iframe, windowStub, windowNavigator, windowLocation)
+    clientWindow = {
+      karma: k
+    }
+    ck = new ContextKarma(ContextKarma.getDirectCallParentKarmaMethod(clientWindow))
     startSpy = sinon.spy(k, 'start')
   })
 
@@ -78,7 +82,7 @@ describe('Karma', function () {
     assert.notEqual(k.start, ADAPTER_START_FN)
   })
 
-  it('should not set up context if there was an error', function () {
+  it.only('should not set up context if there was an error', function () {
     var config = {
       clearContext: true
     }
@@ -88,7 +92,7 @@ describe('Karma', function () {
     var mockWindow = {}
 
     k.error('page reload')
-    k.setupContext(mockWindow)
+    ck.setupContext(mockWindow)
 
     assert(mockWindow.__karma__ == null)
     assert(mockWindow.onbeforeunloadK == null)
