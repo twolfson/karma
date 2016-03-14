@@ -89,13 +89,12 @@ describe('Karma', function () {
 
     socket.emit('execute', config)
 
-    var mockWindow = {}
+    var mockWindow = {__karma__: k}
 
     k.error('page reload')
     ck.setupContext(mockWindow)
 
-    assert(mockWindow.__karma__ == null)
-    assert(mockWindow.onbeforeunloadK == null)
+    assert(mockWindow.onbeforeunload == null)
     assert(mockWindow.onerror == null)
   })
 
@@ -106,12 +105,11 @@ describe('Karma', function () {
 
     socket.emit('execute', config)
 
-    var mockWindow = {}
+    var mockWindow = {__karma__: k}
 
     k.error('page reload')
     ck.setupContext(mockWindow)
 
-    assert(mockWindow.__karma__ != null)
     assert(mockWindow.onbeforeunload != null)
     assert(mockWindow.onerror != null)
   })
@@ -244,6 +242,7 @@ describe('Karma', function () {
       sinon.spy(k, 'log')
 
       var mockWindow = {
+        __karma__: k,
         alert: function () {
           throw new Error('Alert was not patched!')
         }
@@ -327,6 +326,7 @@ describe('Karma', function () {
       k.config.captureConsole = true
 
       var mockWindow = {
+        __karma__: k,
         console: {
           log: function () {}
         }
@@ -343,6 +343,7 @@ describe('Karma', function () {
       k.config.captureConsole = false
 
       var mockWindow = {
+        __karma__: k,
         console: {
           log: function () {}
         }
