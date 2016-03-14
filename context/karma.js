@@ -4,6 +4,9 @@ var stringify = require('../common/stringify')
 // Define our context Karma constructor
 // TODO: We prob don't need a class, do we...?
 var ContextKarma = function (callParentKarmaMethod) {
+  // Define properties
+  var hasError = false
+
   // Define our loggers
   // DEV: These are intentionally repeated in client and context
   this.log = function (type, args) {
@@ -17,6 +20,16 @@ var ContextKarma = function (callParentKarmaMethod) {
   }
 
   this.stringify = stringify
+
+  // Define our proxy error handler
+  // DEV: We require one in our context to track `hasError`
+  this.error = function () {
+    hasError = true
+    callParentKarmaMethod('error', [].slice.call(arguments));
+  }
+
+  // TODO: Define proxy methods
+  ['complete', 'info', 'result']
 
   // Define bindings for context window
   this.setupContext = function (contextWindow) {

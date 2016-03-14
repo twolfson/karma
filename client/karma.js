@@ -196,6 +196,8 @@ var Karma = function (socket, iframe, opener, navigator, location) {
     this.start = UNIMPLEMENTED_START
   }
 
+  // TODO: Does anyone use `this.store`???
+  //   https://gitter.im/karma-runner/karma?at=56e48e07618c335373eb497f
   this.store = function (key, value) {
     if (util.isUndefined(value)) {
       return store[key]
