@@ -3,8 +3,6 @@ Feature: Launcher error
   As a person who wants to write great tests
   I want Karma to output stderr if a browser fails to connect.
 
-  # TODO: Remove current
-  @current
   Scenario: Broken Browser
     Given a configuration with:
       """
